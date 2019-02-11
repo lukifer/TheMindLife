@@ -1,8 +1,20 @@
 html {
+  min-width: 100%;
   /* min-height: 100%; */
 }
 
+* {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
 body {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow:hidden;
   background-image: url('/img/space6x.jpg');
   background-repeat: no-repeat;
   /* background-size: 100% auto; */
@@ -40,6 +52,8 @@ button {
 	box-shadow: 0 0 15px 1px purple;
   font-family: 'Montserrat', sans-serif;
   text-shadow: 0 0 5px rgb(0,240,0);
+  user-select: none;
+  -webkit-user-select: none;
 }
 button:active {
   background: rgb(8,180,0);
@@ -59,7 +73,11 @@ button:active span {
 }
 
 #startButton {
-  margin-top: 3em;
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 }
 
 .App > div {
@@ -81,7 +99,7 @@ button:active span {
 }
 
 .row.level > div {
-  font-size: 4em;
+  font-size: 3em;
 }
 .reactSwipeWrap {
   position: absolute;
@@ -89,7 +107,7 @@ button:active span {
   right: 0;
 }
 #playerCountSwipeWrap {
-  top: 10%;
+  top: 15%;
   bottom: 60%;
 }
 #levelSwipeWrap {
@@ -113,7 +131,7 @@ button:active span {
 }
 
 #playerCountSwipeWrap .label {
-  font-size: 3em;
+  font-size: 2em;
 }
 #playerCountSwipeWrap .images {
   margin-bottom: 1em;
@@ -130,9 +148,9 @@ img.bunnyDead {
   height: 120px;
 }
 img.brain {
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
+  width: 69px;
+  height: 69px;
+  border-radius: 35px;
   border: 4px solid rgb(18,170,23);
   margin: 0 7px;
   box-shadow: 0 0 10px 1px black;

@@ -6,10 +6,8 @@
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/img/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/img/favicon-16x16.png" sizes="16x16" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Press+Start+2P" rel="stylesheet">
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000000" />
     <!--
       manifest.json provides metadata used when your web app is added to the
@@ -31,7 +29,7 @@
       integrity="sha256-lR1rrjnrFy9XqIvWhvepIc8GD9IfWWSPDSC2qPmPxaU="
       crossorigin="anonymous"></script> -->
   </head>
-  <body>
+  <body ontouchmove="event.preventDefault();">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <canvas id="fireworks" />

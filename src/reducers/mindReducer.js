@@ -33,7 +33,7 @@ export default (state = INIT_STATE, action) => {
       });
     case 'SET_GAME_STATE':
       // Reset to new game if requested
-      const baseState = state.gameState !== "pre" && action.payload.gameState == "pre"
+      const baseState = state.gameState !== "pre" && action.payload.gameState === "pre"
         ? INIT_STATE
         : state;
       return Object.assign({}, baseState, {

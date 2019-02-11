@@ -230,7 +230,12 @@ class App extends Component {
                 callback: (num, div) => {},
                 swiping: (fraction) => {},
                 transitionEnd: (num, div) => {
-                  this.props.setLevel(num - - 1);
+                  if(num - - 1 > this.maxLevel()) {
+                    this.props.setGameState("win");
+                    //fireworks.start();
+                  } else {
+                    this.props.setLevel(num - - 1);
+                  }
                 },
               }}
             >

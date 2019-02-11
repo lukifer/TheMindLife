@@ -2,20 +2,24 @@
 
 var SCREEN_WIDTH = window.innerWidth,
     SCREEN_HEIGHT = window.innerHeight,
-    mousePos = {
-        x: 400,
-        y: 300
-    },
+    // mousePos = {
+    //     x: 400,
+    //     y: 300
+    // },
 
     // create canvas
-    canvas = document.createElement('canvas'),
-    context = canvas.getContext('2d'),
+    //canvas = document.createElement('canvas'),
+    canvas,
+    //context = canvas.getContext('2d'),
+    context,
+    launchInterval,
+    loopInterval,
     particles = [],
     rockets = [],
     MAX_PARTICLES = 400;
 
-    canvas.width = SCREEN_WIDTH;
-    canvas.height = SCREEN_HEIGHT;
+    // canvas.width = SCREEN_WIDTH;
+    // canvas.height = SCREEN_HEIGHT;
 
 // init
 // $(document).ready(function() {
@@ -69,8 +73,13 @@ function loop() {
     // }
 
     // clear canvas
-    context.fillStyle = "rgba(0, 0, 0, 0.05)";
+    context.fillStyle = "rgba(0, 0, 0, 0.001)";
     context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    var mousePos = {
+      x: parseInt(Math.random() * SCREEN_WIDTH),
+      y: parseInt(Math.random() * SCREEN_HEIGHT),
+    };
 
     var existingRockets = [];
 
@@ -263,6 +272,19 @@ Rocket.prototype.render = function(c) {
 
 export default {
   canvas: canvas,
-  start: function() { console.log("start"); },
-  stop: function() { console.log("stop"); }
+  start: function() {
+    canvas = document.getElementById('fireworks');
+    canvas.style.display = "block";
+    canvas.width = SCREEN_WIDTH;
+    canvas.height = SCREEN_HEIGHT;
+    context = canvas.getContext('2d');
+    launchInterval = setInterval(function() { launchFrom(parseInt(Math.random() * SCREEN_WIDTH)); }, 800);
+    loopInterval = setInterval(loop, 1000 / 50);
+  },
+  stop: function() {
+    if(launchInterval) clearInterval(launchInterval);
+    if(loopInterval) clearInterval(loopInterval);
+    launchInterval = false;
+    loopInterval = false;
+  }
 }

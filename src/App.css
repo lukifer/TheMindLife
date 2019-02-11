@@ -137,3 +137,12 @@ img.brain {
   margin: 0 7px;
   box-shadow: 0 0 10px 1px black;
 }
+
+#fireworks {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

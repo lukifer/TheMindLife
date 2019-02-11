@@ -107,7 +107,7 @@ button:active span {
   right: 0;
 }
 #playerCountSwipeWrap {
-  top: 15%;
+  top: 10%;
   bottom: 60%;
 }
 #levelSwipeWrap {
@@ -122,6 +122,11 @@ button:active span {
   top: 60%;
   bottom: 10%;
 }
+#livesSwipeWrap .label,
+#starsSwipeWrap .label {
+  padding-top: 0;
+  padding-bottom: 0.5em;
+}
 
 #playerCountDisplay {
   display: none;
@@ -130,22 +135,29 @@ button:active span {
   display: block;
 }
 
+.images,
+.label {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
 #playerCountSwipeWrap .label {
   font-size: 2em;
 }
-#playerCountSwipeWrap .images {
-  margin-bottom: 1em;
+#playerCountSwipeWrap .images,
+#playerCountSwipeWrap .label {
+  /* padding-top: 1em;
+  padding-bottom: 1em; */
 }
 
 .row > .images {
-  margin-bottom: 0.5em;
+  /* margin-bottom: 0.5em; */
 }
 img.star,
 img.starEmpty,
 img.bunny,
 img.bunnyDead {
-  width:  120px;
-  height: 120px;
+  width:  90px;
+  height: 90px;
 }
 img.brain {
   width: 69px;

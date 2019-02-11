@@ -75,7 +75,7 @@ class App extends Component {
       return (
         <div key={"level"+i}>
           <div className="row level">
-            <div>
+            <div className="label">
               {/* Level {`${i+curLevel}`} {i - - curLevel} {maxLevel} */}
               {i - - curLevel <= maxLevel && <span>Level {`${i+curLevel}`}</span>}
               {i - - curLevel > maxLevel && <span>VICTORY</span>}
@@ -186,7 +186,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {/* Uncomment to debug */}
+        {/*
         <pre>{ JSON.stringify(this.props) }</pre>
+        */}
 
         <div id="preWrap" className={this.props.mind.gameState === "pre" ? "" : "hidden"}>
           <div id="playerCountSwipeWrap" className="reactSwipeWrap">

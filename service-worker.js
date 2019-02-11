@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/TheMindLife/precache-manifest.c94f5e4b82af0827a6244ec9d73c86ee.js"
+  "/TheMindLife/precache-manifest.3a22e6948dfc8519c075067fb5ae08df.js"
 );
 
 workbox.clientsClaim();

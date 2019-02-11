@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "b69ceb82c5d13c74dd62",
-    "url": "/TheMindLife/static/css/main.baee5da3.chunk.css"
+    "revision": "ee2a21ad8a1147960929",
+    "url": "/TheMindLife/static/css/main.0b120a91.chunk.css"
   },
   {
-    "revision": "b69ceb82c5d13c74dd62",
-    "url": "/TheMindLife/static/js/main.b69ceb82.chunk.js"
+    "revision": "ee2a21ad8a1147960929",
+    "url": "/TheMindLife/static/js/main.ee2a21ad.chunk.js"
   },
   {
     "revision": "6c9f2bc4de1a7ce000d9",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/TheMindLife/static/js/runtime~main.b4334c49.js"
   },
   {
-    "revision": "b9c584a39bbf8881d43b4ff8b9abe0a9",
+    "revision": "0a6bad49ef3816f26006b3be8299b217",
     "url": "/TheMindLife/index.html"
   }
 ];

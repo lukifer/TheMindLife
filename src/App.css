@@ -167,6 +167,10 @@ img.bunnyDead {
   height: 90px;
 }
 img.brain {
+  width: 99px;
+  height: 69px;
+}
+/* img.brain {
   display: inline-block;
   width: 69px;
   height: 69px;
@@ -174,7 +178,9 @@ img.brain {
   border: 4px solid rgb(18,170,23);
   margin: 0 7px;
   box-shadow: 0 0 10px 1px black;
-}
+} */
+
+// https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3
 
 #fireworks {
   z-index: 1;

@@ -41,7 +41,7 @@ class App extends Component {
             <div className="images">
               {
                 Array.apply(null, Array(num)).map((_, j) => {
-                  return ( <img key={"brain"+i+j} className="brain" src="img/brain.jpg" alt={"Brain #"+(j - -1)} /> );
+                  return ( <img key={"brain"+i+j} className="brain" src="img/brain.png" alt={"Brain #"+(j - -1)} /> );
                 })
               }
             </div>

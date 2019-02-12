@@ -15,7 +15,6 @@ body {
   right: 0;
   bottom: 0;
   overflow:hidden;
-  background-image: url('/img/space6x.jpg');
   background-repeat: no-repeat;
   /* background-size: 100% auto; */
   /* background-size: auto 100%; */
@@ -41,23 +40,30 @@ pre {
 .hidden {
   display: none;
 }
-
+.inactive {
+  pointer-events: none;
+}
 
 button {
   border-radius: 0.25em;
 	background: rgb(18,170,23);
 	border: 0;
-	font-size: 40px;
+	font-size: 2em;
 	padding: 0.25em 0.75em;
-	box-shadow: 0 0 15px 1px purple;
+	/* box-shadow: 0 0 15px 1px purple; */
+	box-shadow: 0 0 15px 1px black;
   font-family: 'Montserrat', sans-serif;
   text-shadow: 0 0 5px rgb(0,240,0);
   user-select: none;
   -webkit-user-select: none;
 }
+button:focus {
+  outline: none;
+}
 button:active {
   background: rgb(8,180,0);
-  box-shadow: 0 0 7px 0px purple;
+  /* box-shadow: 0 0 7px 0px purple; */
+  box-shadow: 0 0 7px 0px black;
 }
 button span {
   position: relative;
@@ -96,10 +102,11 @@ button:active span {
   text-align: center;
   font-family: 'Press Start 2P', cursive;
   text-shadow: 0 0 10px black;
+  /* pointer-events: none; */
 }
 
 .row.level > div {
-  font-size: 3em;
+  font-size: 2.75em;
 }
 .reactSwipeWrap {
   position: absolute;
@@ -160,6 +167,7 @@ img.bunnyDead {
   height: 90px;
 }
 img.brain {
+  display: inline-block;
   width: 69px;
   height: 69px;
   border-radius: 35px;
@@ -175,4 +183,6 @@ img.brain {
   left: 0;
   right: 0;
   bottom: 0;
+  display: none;
+  pointer-events: none;
 }

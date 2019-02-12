@@ -6,7 +6,7 @@
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/img/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="%PUBLIC_URL%/img/favicon-16x16.png" sizes="16x16" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700|Press+Start+2P" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#000000" />
     <!--
@@ -28,8 +28,12 @@
       src="https://code.jquery.com/jquery-1.6.4.min.js"
       integrity="sha256-lR1rrjnrFy9XqIvWhvepIc8GD9IfWWSPDSC2qPmPxaU="
       crossorigin="anonymous"></script> -->
+    <!-- <script
+      src="https://code.jquery.com/jquery-2.2.4.min.js"
+      integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+      crossorigin="anonymous"></script> -->
   </head>
-  <body ontouchmove="event.preventDefault();">
+  <body ontouchmove="event.preventDefault();" style="background-image: url('%PUBLIC_URL%/img/space6x.jpg');">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <canvas id="fireworks" />

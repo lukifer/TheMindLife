@@ -7,11 +7,14 @@ const INIT_STATE = {
   // gameState: 'active', // pre, active, win, loss
 }
 
-export default (state = INIT_STATE, action) => {
+const STORAGE_STATE = JSON.parse(localStorage.getItem("mind", "false"));
+
+export default (state = STORAGE_STATE || INIT_STATE, action) => {
   switch(action.type) {
     case 'SET_PLAYER_COUNT':
       return Object.assign({}, state, {
-        playerCount: action.payload.playerCount
+        playerCount: action.payload.playerCount,
+        lives:       action.payload.playerCount,
       })
     case 'SET_LEVEL':
       return Object.assign({}, state, {

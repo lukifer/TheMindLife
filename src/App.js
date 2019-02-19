@@ -38,6 +38,7 @@ class App extends Component {
       return (
         <div key={"playerCount"+i}>
           <div className="row playerCount">
+            {/*
             <div className="images">
               {
                 Array.apply(null, Array(num)).map((_, j) => {
@@ -45,6 +46,7 @@ class App extends Component {
                 })
               }
             </div>
+            */}
             <div className="label">{`${num}`} Players</div>
           </div>
         </div>
@@ -80,11 +82,11 @@ class App extends Component {
       return (
         <div key={"lives"+i}>
           <div className="row lives">
-            <div className="images">
-              {i === 0 && <img key={"bunny-dead"} className="bunny bunnyDead" src="img/bunny-dead.png" alt="Game Over" />}
+            <div className="images" style={{ maxWidth: (i*90)+"px" }}>
+              {i === 0 && <div><img key={"bunny-dead"} className="bunny bunnyDead" src="img/bunny-dead.png" alt="Game Over" /></div>}
               {i   > 0 &&
                 Array.apply(null, Array(i)).map((_, j) => {
-                  return ( <img key={"bunny"+i+j} className="bunny" src="img/bunny.png" alt={"Life #"+(j - -1)} /> );
+                  return ( <div><img key={"bunny"+i+j} className="bunny" src="img/bunny.png" alt={"Life #"+(j - -1)} /></div> );
                 })
               }
             </div>
@@ -106,13 +108,13 @@ class App extends Component {
       return (
         <div key={"stars"+i}>
           <div className="row stars">
-            <div className="images">
+            <div className="images" style={{ maxWidth: (i*90)+"px" }}>
               {
                 i > 0 && Array.apply(null, Array(i)).map((_, j) => {
-                  return ( <img key={"star"+i+j} className="star" src="img/star.png" alt={"Star #"+(j - -1)} /> );
+                  return ( <div><img key={"star"+i+j} className="star" src="img/star.png" alt={"Star #"+(j - -1)} /></div> );
                 })
               }
-              {i === 0 && <img key={"star-empty"} className="starEmpty" src="img/star_bw.png" alt="0 Stars" /> }
+              {i === 0 && <div><img key={"star-empty"} className="starEmpty" src="img/star_bw.png" alt="0 Stars" /></div> }
             </div>
             <div className="label">Stars {i} / {Mind.maxStars(this.props.mind.level)}</div>
           </div>

@@ -80,7 +80,7 @@ button:active span {
 
 #startButton {
   position: fixed;
-  top: 60%;
+  top: 50%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -92,6 +92,10 @@ button:active span {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.row {
+  padding-left:  1em;
+  padding-right: 1em;
 }
 .row > div {
   margin: 0 auto;
@@ -105,8 +109,12 @@ button:active span {
   /* pointer-events: none; */
 }
 
+.row.level {
+  padding: 0;
+}
 .row.level > div {
-  font-size: 2.75em;
+  font-size: 2.5em;
+  white-space: nowrap;
 }
 .reactSwipeWrap {
   position: absolute;
@@ -148,6 +156,7 @@ button:active span {
   padding-bottom: 0.5em;
 }
 #playerCountSwipeWrap .label {
+  margin-top: 2em;
   font-size: 2em;
 }
 #playerCountSwipeWrap .images,
@@ -156,17 +165,30 @@ button:active span {
   padding-bottom: 1em; */
 }
 
-.row > .images {
+.row .images {
+  white-space: nowrap;
+  display: flex;
   /* margin-bottom: 0.5em; */
+}
+.row .images > div {
+  width: 1px;
+  height: 90px;
+  flex: 1 1 auto;
+  position: relative;
 }
 img.star,
 img.starEmpty,
 img.bunny,
 img.bunnyDead {
+  position: absolute;
+  left: 50%;
+  top: 0;
   width:  90px;
   height: 90px;
+  transform: translateX(-50%);
 }
 img.brain {
+  visibility: hidden;
   width: 99px;
   height: 69px;
 }

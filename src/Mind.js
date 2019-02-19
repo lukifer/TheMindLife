@@ -4,7 +4,6 @@ const STARTING_STARS = 1;
 const GAIN_LIVES_AT_LEVEL = [3, 6, 9];
 const GAIN_STARS_AT_LEVEL = [2, 5, 8];
 
-//export default class Mind {
 class Mind {
 
   maxLevel(playerCount) {

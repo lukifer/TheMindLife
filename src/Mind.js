@@ -6,6 +6,24 @@ const GAIN_STARS_AT_LEVEL = [2, 5, 8];
 
 class Mind {
 
+  numWord(val) {
+    switch(val) {
+      case 12: return "Twelve";
+      case 11: return "Eleven";
+      case 10: return "Ten";
+      case 9:  return "Nine";
+      case 8:  return "Eight";
+      case 7:  return "Seven";
+      case 6:  return "Six";
+      case 5:  return "Five";
+      case 4:  return "Four";
+      case 3:  return "Three";
+      case 2:  return "Two";
+      case 1:  return "One";
+      default: return "";
+    }
+  }
+
   maxLevel(playerCount) {
     switch(playerCount) {
       case 4:  return 8;

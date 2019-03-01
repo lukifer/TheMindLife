@@ -272,19 +272,31 @@ Rocket.prototype.render = function(c) {
 
 export default {
   canvas: canvas,
+  active: false,
   start: function() {
+    this.active = true;
+    document.getElementById('fireworks_wrap')
+      .style.display = "block";
     canvas = document.getElementById('fireworks');
-    canvas.style.display = "block";
     canvas.width = SCREEN_WIDTH;
     canvas.height = SCREEN_HEIGHT;
+    //canvas.style.display = "block";
     context = canvas.getContext('2d');
     launchInterval = setInterval(function() { launchFrom(parseInt(Math.random() * SCREEN_WIDTH)); }, 800);
     loopInterval = setInterval(loop, 1000 / 50);
   },
   stop: function() {
-    if(launchInterval) clearInterval(launchInterval);
-    if(loopInterval) clearInterval(loopInterval);
-    launchInterval = false;
-    loopInterval = false;
+    if(this.active) {
+      this.active = false;
+      document.getElementById('fireworks_wrap')
+        .style.display = "none";
+      document.getElementById('fireworks')
+        .getContext('2d')
+        .clearRect(0, 0, canvas.width, canvas.height);
+      if(launchInterval) clearInterval(launchInterval);
+      if(loopInterval) clearInterval(loopInterval);
+      launchInterval = false;
+      loopInterval = false;
+    }
   }
 }

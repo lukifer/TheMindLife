@@ -47,7 +47,7 @@ class App extends Component {
               }
             </div>
             */}
-            <div className="label">{`${num}`} Players</div>
+            <div className="label">{num} Players</div>
           </div>
         </div>
       );
@@ -64,8 +64,8 @@ class App extends Component {
           <div className="row level">
             <div className="label">
               {/* {i - - 1} {maxLevel} {i - - 1 <= maxLevel} */}
-              {i - - 1 <= maxLevel && <span>Level {i - - 1}</span>}
-              {i - - 1 >  maxLevel && <span>VICTORY</span>}
+              {i - - 1  <= maxLevel && <span>Level {i - - 1}</span>}
+              {i       === maxLevel && <span>YOU WIN!</span>}
             </div>
           </div>
         </div>
@@ -86,14 +86,14 @@ class App extends Component {
               {i === 0 && <div><img key={"bunny-dead"} className="bunny bunnyDead" src="img/bunny-dead.png" alt="Game Over" /></div>}
               {i   > 0 &&
                 Array.apply(null, Array(i)).map((_, j) => {
-                  return ( <div><img key={"bunny"+i+j} className="bunny" src="img/bunny.png" alt={"Life #"+(j - -1)} /></div> );
+                  return ( <div key={"bunny"+i+j}><img className="bunny" src="img/bunny.png" alt={"Life #"+(j - -1)} /></div> );
                 })
               }
             </div>
-            <div className="label">
+            {/*<div className="label">
               {i === 0 && <span className="label">GAME OVER</span>}
               {i   > 0 && <span className="label">Lives {`${i}`}  / {maxLives}</span>}
-            </div>
+            </div>*/}
           </div>
         </div>
       );
@@ -111,12 +111,12 @@ class App extends Component {
             <div className="images" style={{ maxWidth: (i*90)+"px" }}>
               {
                 i > 0 && Array.apply(null, Array(i)).map((_, j) => {
-                  return ( <div><img key={"star"+i+j} className="star" src="img/star.png" alt={"Star #"+(j - -1)} /></div> );
+                  return ( <div key={"star"+i+j}><img className="star" src="img/star.png" alt={"Star #"+(j - -1)} /></div> );
                 })
               }
               {i === 0 && <div><img key={"star-empty"} className="starEmpty" src="img/star_bw.png" alt="0 Stars" /></div> }
             </div>
-            <div className="label">Stars {i} / {Mind.maxStars(this.props.mind.level)}</div>
+            {/*<div className="label">Stars {i} / {Mind.maxStars(this.props.mind.level)}</div>*/}
           </div>
         </div>
       );
@@ -162,6 +162,16 @@ class App extends Component {
         }
       }
     }
+
+    // Start or stop fireworks if win state changed
+    if(prev.gameState !== curr.gameState) {
+      if(prev.gameState === "win") {
+        fireworks.stop();
+      } else if(curr.gameState === "win") {
+        fireworks.start();
+      }
+    }
+
     localStorage.setItem("mind", JSON.stringify(curr));
   }
 
@@ -189,6 +199,7 @@ class App extends Component {
             >
               {this.playerCountPanes()}
             </ReactSwipe>
+            <div id="playerCountSubtitle" className="subtitle">Levels 1 - {Mind.maxLevel(this.props.mind.playerCount)}</div>
             <button
               id="startButton"
               onClick={(e) => this.props.setGameState("active")}
@@ -202,7 +213,7 @@ class App extends Component {
 
         <div id="activeWrap" className={this.props.mind.gameState === "pre" ? "hidden" : ""}>
 
-          <div id="playerCountDisplay">{this.props.mind.playerCount} Players</div>
+          {/*<div id="playerCountDisplay">{Mind.numWord(this.props.mind.playerCount)} Players</div>*/}
 
           <div id="levelSwipeWrap" className="reactSwipeWrap">
             <ReactSwipe
@@ -211,23 +222,30 @@ class App extends Component {
               className="levelSwipe"
               swipeOptions={{
                 continuous: false,
-                startSlide: this.props.mind.level - 1,
+                startSlide:
+                  this.props.mind.gameState === "win"
+                  ? this.props.mind.level
+                  : this.props.mind.level - 1,
                 callback: (num, div) => {},
                 swiping: (fraction) => {},
                 transitionEnd: (num, div) => {
-
-                  this.props.setLevel(num - - 1);
-
                   const maxLevel = Mind.maxLevel(this.props.mind.playerCount);
                   if(num - - 1 > maxLevel) {
                     this.props.setGameState("win");
-                    //fireworks.start();
+                    // fireworks.start();
+                  } else if(this.props.mind.gameState === "win" && num < maxLevel) {
+                      this.props.setGameState("active")
+                      // fireworks.stop();
+                  } else {
+                    this.props.setLevel(num - - 1);
                   }
                 },
               }}
             >
               {this.levelPanes()}
             </ReactSwipe>
+            {/*<div id="levelSwipeSubtitle" className="subtitle">{this.props.mind.playerCount}P: Levels 1-{Mind.maxLevel(this.props.mind.playerCount)}</div>*/}
+            <div id="levelSwipeSubtitle" className={this.props.mind.gameState === "active" ? "subtitle" : "hidden"}>{this.props.mind.level === Mind.maxLevel(this.props.mind.playerCount) && <div>Final Level!</div>}Deal {Mind.numWord(this.props.mind.level)} To Each Player</div>
           </div>
           {/* end #levelSwipeWrap */}
 
@@ -248,6 +266,10 @@ class App extends Component {
             >
               {this.livesPanes()}
             </ReactSwipe>
+            <div className="label">
+              {this.props.mind.lives === 0 && <span>GAME OVER</span>}
+              {this.props.mind.lives   > 0 && <span>Lives {this.props.mind.lives}  / {Mind.maxLives(this.props.mind.playerCount, this.props.mind.level)}</span>}
+            </div>
           </div>
           {/* end #livesSwipeWrap */}
 
@@ -268,6 +290,7 @@ class App extends Component {
             >
               {this.starsPanes()}
             </ReactSwipe>
+            <div className={this.props.mind.gameState === "active" ? "label" : "hidden"}>Stars {this.props.mind.stars} / {Mind.maxStars(this.props.mind.level)}</div>
 
             <button
               id="newGameButton"

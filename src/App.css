@@ -101,12 +101,16 @@ button:active span {
   margin: 0 auto;
   width: 100%;
   /* height: 150px; */
-  font-size: 1.5em;
+  /* font-size: 1.5em; */
   color: white;
   text-align: center;
   font-family: 'Press Start 2P', cursive;
   text-shadow: 0 0 10px black;
   /* pointer-events: none; */
+}
+.row.lives,
+.row.stars {
+  font-size: 1.5em;
 }
 
 .row.level {
@@ -121,13 +125,20 @@ button:active span {
   left: 0;
   right: 0;
 }
+.reactSwipeWrap {
+  font-size: 1em;
+  color: white;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 0 0 10px black;
+}
 #playerCountSwipeWrap {
   top: 10%;
   bottom: 60%;
 }
 #levelSwipeWrap {
   top: 10%;
-  bottom: 60%;
+  bottom: 70%;
 }
 #livesSwipeWrap {
   top: 30%;
@@ -139,8 +150,17 @@ button:active span {
 }
 #livesSwipeWrap .label,
 #starsSwipeWrap .label {
+  margin-top: -1.5em;
   padding-top: 0;
   padding-bottom: 0.5em;
+  font-size: 1.5em;
+  color: white;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 0 0 10px black;
+}
+.livesSwipe,
+.starsSwipe {
 }
 
 #playerCountDisplay {
@@ -148,6 +168,10 @@ button:active span {
 }
 #playerCountDisplay.visible {
   display: block;
+}
+
+#levelSwipeSubtitle {
+  line-height: 1.5em;
 }
 
 .images,
@@ -169,6 +193,10 @@ button:active span {
   white-space: nowrap;
   display: flex;
   /* margin-bottom: 0.5em; */
+}
+.row.stars,
+.row.lives {
+  padding-bottom: 2em;
 }
 .row .images > div {
   width: 1px;
@@ -204,7 +232,7 @@ img.brain {
 
 // https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3
 
-#fireworks {
+#fireworks_wrap {
   z-index: 1;
   position: fixed;
   top: 0;
@@ -213,4 +241,7 @@ img.brain {
   bottom: 0;
   display: none;
   pointer-events: none;
+}
+
+#fireworks {
 }

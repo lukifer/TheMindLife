@@ -1,6 +1,7 @@
 {
   "short_name": "TheMind",
   "name": "The Mind: Unofficial Level Tracker",
+  "display": "standalone",
   "icons": [
     {
       "src": "favicon.ico",

@@ -14,7 +14,7 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  overflow:hidden;
+  overflow: hidden;
   background-repeat: no-repeat;
   /* background-size: 100% auto; */
   /* background-size: auto 100%; */
@@ -74,6 +74,77 @@ button:active span {
   top: 1px;
 }
 
+button.arrow {
+  display: none;
+  position: absolute;
+  z-index: 999;
+  width: 2em;
+  height: 2em;
+  text-align: center;
+  top: 0.5em;
+  font-family: 'Press Start 2P', monospace;
+  color: white;
+  font-size: 2.5em;
+  text-shadow: 0 0 10px black;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  box-shadow: none;
+  cursor: pointer;
+  transition: text-shadow 200ms linear;
+}
+button.arrow.left {
+  left: 0;
+}
+button.arrow.right {
+  right: 0;
+}
+#levelSwipeWrap button.arrow {
+  top: 0;
+}
+button.arrow:hover {
+  text-shadow: 0 0 25px gray;
+}
+body.notouch button.arrow {
+  display: block;
+}
+
+#helpButton {
+  position: absolute;
+  top:0.5em;
+  right: 0.5em;
+  border-radius: 1.25em;
+  z-index: 99;
+  opacity: 0.0;
+  pointer-events: none;
+  transition: opacity 150ms linear;
+}
+#helpButton span {
+  width: 0.25em;
+  transform: translateX(-50%);
+}
+#helpButton.visible {
+  opacity: 1.0;
+  pointer-events: auto;
+}
+
+#helpOverlay {
+  opacity: 0.0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  pointer-events: none;
+  z-index: 999;
+}
+#helpOverlay.visible {
+  display: block;
+  pointer-events: all;
+  opacity: 1.0;
+}
+
 #newGameButton {
   margin-top: 1em;
 }
@@ -104,7 +175,7 @@ button:active span {
   /* font-size: 1.5em; */
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', monospace;
   text-shadow: 0 0 10px black;
   /* pointer-events: none; */
 }
@@ -129,7 +200,7 @@ button:active span {
   font-size: 1em;
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', monospace;
   text-shadow: 0 0 10px black;
 }
 #playerCountSwipeWrap {
@@ -156,7 +227,7 @@ button:active span {
   font-size: 1.5em;
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', monospace;
   text-shadow: 0 0 10px black;
 }
 .livesSwipe,
@@ -172,6 +243,8 @@ button:active span {
 
 #levelSwipeSubtitle {
   line-height: 1.5em;
+  /* font-size: 1.25em; */
+  /* font-family: 'Montserrat', sans-serif; */
 }
 
 .images,
@@ -230,7 +303,7 @@ img.brain {
   box-shadow: 0 0 10px 1px black;
 } */
 
-// https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3
+/* https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3 */
 
 #fireworks_wrap {
   z-index: 1;

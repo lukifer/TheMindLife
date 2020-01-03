@@ -9,6 +9,10 @@ import './index.css';
 
 const store = configureStore();
 
+if(!('ontouchstart' in document.documentElement)){
+  document.body.className = "notouch";
+}
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

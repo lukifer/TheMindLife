@@ -4,7 +4,12 @@ const STARTING_STARS = 1;
 const GAIN_LIVES_AT_LEVEL = [3, 6, 9];
 const GAIN_STARS_AT_LEVEL = [2, 5, 8];
 
-class Mind {
+class Rules {
+
+  ACTIVE = "active";
+  PRE = "pre";
+  WIN = "win";
+  LOSS = "loss";
 
   numWord(val) {
     switch(val) {
@@ -56,6 +61,6 @@ class Mind {
   }
 }
 
-export default new Mind();
+export default new Rules();
 
 //export default connect(mapStateToProps, mapDispatchToProps)(App);

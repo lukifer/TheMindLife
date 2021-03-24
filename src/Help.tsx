@@ -22,7 +22,6 @@ function Help(args: Partial<Game>) {
       id="help"
       className={clsx(active && "visible")}
     >
-      <h4><span>The Mind <em>(Unofficial)</em></span></h4>
       <p>
         <a href={`${pnd}the-mind`} {...lnk}>The Mind</a> is a cooperative card game for
         2-4 players (you'll need a copy to play).
@@ -34,7 +33,7 @@ function Help(args: Partial<Game>) {
         To use this app to track your level, lives, and stars, swipe each left or right.
       </p>
       <p>
-        To play <a href={`${pnd}the-mind-extreme`} {...lnk}>The Mind Extreme</a>,
+        For <a href={`${pnd}the-mind-extreme`} {...lnk}>The Mind Extreme</a>,
         choose <em>Extreme Mode</em>. (If you don't know what this is, leave it off.)</p>
       <p>
         Good luck!

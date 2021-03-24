@@ -29,7 +29,7 @@ const STORAGE_STATE = JSON.parse(localStorage.getItem("mind") || "false");
 const { PRE, ACTIVE, WIN, LOSS } = GameState;
 const { body } = document;
 
-const handImg = <img className="hand" src="img/hand3.png" alt="Hand" />;
+const handImg = <img className="hand" src="img/hand.png" alt="Hand" />;
 
 const times = (n: number, fn: IterNode) => Array.apply(null, Array(n)).map((_, i) => fn(i));
 
@@ -123,7 +123,7 @@ let playersSwipe: ReactSwipe | null;
 let starsSwipe:   ReactSwipe | null;
 
 function gameReducer(oldGame: Game, change: Partial<Game>) {
-  console.log("gameUpdate", change);
+  //console.log("gameUpdate", change);
   let newGame = { ...oldGame, ...change };
   if(oldGame.level !== newGame.level) {
     newGame.state = newGame.level > calcMaxLevel(newGame.players)
@@ -145,21 +145,17 @@ function gameReducer(oldGame: Game, change: Partial<Game>) {
       players: newGame.players,
       state: ACTIVE,
     };
-    console.log(JSON.stringify(newGame));
+    //console.log(JSON.stringify(newGame));
   }
   return newGame;
 }
 
 function reactSwipe(args: SwipeArgs) {
   const { leftButton, rightButton } = args;
-  // const swipeOptions = {
-  //   callback: () => {},
-  //   swiping: () => {},
-  // }
   return (
     <>
-      {leftButton  && <button className="arrow left" onClick={leftButton }>&lt;</button>}
-      {rightButton && <button className="arrow left" onClick={rightButton}>&lt;</button>}
+      { leftButton && <button className="arrow left"  onClick={ leftButton}>&lt;</button>}
+      {rightButton && <button className="arrow right" onClick={rightButton}>&gt;</button>}
       <ReactSwipe
         ref={args.ref}
         childCount={args.panes.length}
@@ -228,6 +224,7 @@ function App() {
 
   return (
     <div className="App">
+
       <Help state={state} />
 
       <div id="preWrap" className={clsx(state !== PRE && "hidden")}>
@@ -237,14 +234,16 @@ function App() {
             panes: renderPlayers(),
             startSlide: players - 2,
             transitionEnd: (num: number) => setPlayers(num + 2 as Players),
-            leftButton:  players > 2 && playersSwipe?.prev,
-            rightButton: players < 4 && playersSwipe?.next,
+            leftButton:  players > 2 && (() => playersSwipe?.prev()),
+            rightButton: players < 4 && (() => playersSwipe?.next()),
           })}
           <div id="playerCountSubtitle" className="subtitle">Levels 1 - {maxLevel}</div>
-          <label id="isExtreme">
-            <input type="checkbox" checked={extreme} onChange={() => setExtreme(!extreme)} />
-            <span className={clsx("x", !extreme && "off")}>x</span> Extreme
-          </label>
+          <div id="isExtreme">
+            <label>
+              <input type="checkbox" checked={extreme} onChange={() => setExtreme(!extreme)} />
+              <span className={clsx("x", !extreme && "off")}>x</span> Extreme
+            </label>
+          </div>
           {/* className={clsx(state === PRE && "visible")} */}
           <button
             id="startButton"
@@ -263,8 +262,8 @@ function App() {
             panes: renderLevel(players),
             startSlide: level - 1,
             transitionEnd: (num: number) => setLevel(num + 1 as Level),
-            leftButton:  state === ACTIVE && level > 1        && levelSwipe?.prev,
-            rightButton: state === ACTIVE && level < maxLevel && levelSwipe?.next,
+            leftButton:  state === ACTIVE && level > 1        && (() => levelSwipe?.prev()),
+            rightButton: state === ACTIVE && level < maxLevel && (() => levelSwipe?.next()),
           })}
           <div id="levelSwipeSubtitle" className={clsx(state !== ACTIVE && "hidden")}>
             <div>{level === maxLevel && <>Final Level!</>}</div>
@@ -279,8 +278,8 @@ function App() {
             panes: renderLives(lives, level, players),
             startSlide: lives,
             transitionEnd: (num: number) => setLives(num as Lives),
-            leftButton:  state === ACTIVE && livesSwipe?.prev,
-            rightButton: lives < maxLives && livesSwipe?.next,
+            leftButton:  state === ACTIVE && (() => livesSwipe?.prev()),
+            rightButton: lives < maxLives && (() => livesSwipe?.next()),
           })}
           <div className="label">
             {lives === 0 && <span>GAME OVER</span>}
@@ -295,8 +294,8 @@ function App() {
             startSlide: stars,
             transitionEnd: (num: number) => setStars(num as Stars),
             className: clsx(state !== ACTIVE && "hidden"),
-            leftButton:  state === ACTIVE && stars > 0        && starsSwipe?.prev,
-            rightButton: state === ACTIVE && stars < maxStars && starsSwipe?.next,
+            leftButton:  state === ACTIVE && stars > 0        && (() => starsSwipe?.prev()),
+            rightButton: state === ACTIVE && stars < maxStars && (() => starsSwipe?.next()),
           })}
           <div className={state === ACTIVE ? "label" : "hidden"}>
             Stars {stars} / {maxStars}
@@ -305,7 +304,7 @@ function App() {
 
         <div id="extremeWrap" className="reactSwipeWrap">
           <div className="positive">0 {extremeHands["+"].includes(level) && handImg}</div>
-          <div className="negative">{  extremeHands["-"].includes(level) && handImg} 50</div>
+          <div className="negative">{  extremeHands["-"].includes(level) && handImg} 51</div>
         </div>
 
       </div> {/* #activeWrap */}

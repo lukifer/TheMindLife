@@ -120,7 +120,7 @@ body.notouch button.arrow {
 #helpButton {
   position: absolute;
   z-index: 1001;
-  top:0.5em;
+  top: 0.5em;
   right: 0.5em;
   border-radius: 1.25em;
   opacity: 0.0;
@@ -193,7 +193,7 @@ body.notouch button.arrow {
   position: absolute;
   z-index: 1000;
   top: 5%;
-  width: 75%;
+  width: 85%;
   max-width: 480px;
   bottom: 5%;
   left: 50%;
@@ -206,15 +206,21 @@ body.notouch button.arrow {
   box-shadow: 0 0 15px 1px black;
   color: white;
   font-family: 'Press Start 2P', monospace;
+  font-size: 0.85em;
   pointer-events: none;
-  overflow: auto;
+  overflow: scroll;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-overflow-scrolling: touch;
   transition: opacity 150ms linear;
+}
+body.notouch #help {
+  overflow: auto;
 }
 @media only screen and (min-width: 480px) {
   #help {
     padding: 2em;
+    font-size: 1em;
   }
 }
 #help.visible {
@@ -231,6 +237,12 @@ body.notouch button.arrow {
 }
 #help p {
   text-align: left;
+}
+#help p:first-child {
+  margin-top: 0;
+}
+#help p:last-child {
+  margin-bottom: 0;
 }
 #help em {
   font-style: normal;
@@ -360,8 +372,8 @@ body.notouch button.arrow {
   left: 50%;
   width: 100%;
   transform: translateX(-50%);
-  display: block;
-  margin-top: 3em;
+}
+#isExtreme label {
   color: orange;
   font-size: 1.25em;
   cursor: pointer;
@@ -409,7 +421,7 @@ body.notouch button.arrow {
 
 @media only screen and (max-width: 699px) {
   #levelSwipeSubtitle {
-    font-size: 0.8em;
+    font-size: 0.7em;
   }
 }
 

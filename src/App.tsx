@@ -262,8 +262,8 @@ function App() {
             panes: renderLevel(players),
             startSlide: level - 1,
             transitionEnd: (num: number) => setLevel(num + 1 as Level),
-            leftButton:  state === ACTIVE && level > 1        && (() => levelSwipe?.prev()),
-            rightButton: state === ACTIVE && level < maxLevel && (() => levelSwipe?.next()),
+            leftButton:  state === ACTIVE && level > 1         && (() => levelSwipe?.prev()),
+            rightButton: state === ACTIVE && level <= maxLevel && (() => levelSwipe?.next()),
           })}
           <div id="levelSwipeSubtitle" className={clsx(state !== ACTIVE && "hidden")}>
             <div>{level === maxLevel && <>Final Level!</>}</div>

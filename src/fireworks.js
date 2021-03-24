@@ -270,16 +270,14 @@ Rocket.prototype.render = function(c) {
 // setInterval(launch, 800);
 // setInterval(loop, 1000 / 50);
 
-const { getElementById } = document;
-
 const fireworks = {
   canvas: canvas,
   active: false,
   start: function() {
     this.active = true;
-    getElementById('fireworks_wrap')
+    document.getElementById('fireworks_wrap')
       .style.display = "block";
-    canvas = getElementById('fireworks');
+    canvas = document.getElementById('fireworks');
     canvas.width = SCREEN_WIDTH;
     canvas.height = SCREEN_HEIGHT;
     //canvas.style.display = "block";
@@ -290,9 +288,9 @@ const fireworks = {
   stop: function() {
     if(this.active) {
       this.active = false;
-      getElementById('fireworks_wrap')
+      document.getElementById('fireworks_wrap')
         .style.display = "none";
-      getElementById('fireworks')
+      document.getElementById('fireworks')
         .getContext('2d')
         .clearRect(0, 0, canvas.width, canvas.height);
       if(launchInterval) clearInterval(launchInterval);

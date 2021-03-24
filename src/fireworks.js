@@ -1,6 +1,6 @@
 //https://jsfiddle.net/dtrooper/AceJJ/
 
-var SCREEN_WIDTH = window.innerWidth,
+var SCREEN_WIDTH  = window.innerWidth,
     SCREEN_HEIGHT = window.innerHeight,
     // mousePos = {
     //     x: 400,
@@ -270,14 +270,16 @@ Rocket.prototype.render = function(c) {
 // setInterval(launch, 800);
 // setInterval(loop, 1000 / 50);
 
-export default {
+const { getElementById } = document;
+
+const fireworks = {
   canvas: canvas,
   active: false,
   start: function() {
     this.active = true;
-    document.getElementById('fireworks_wrap')
+    getElementById('fireworks_wrap')
       .style.display = "block";
-    canvas = document.getElementById('fireworks');
+    canvas = getElementById('fireworks');
     canvas.width = SCREEN_WIDTH;
     canvas.height = SCREEN_HEIGHT;
     //canvas.style.display = "block";
@@ -288,9 +290,9 @@ export default {
   stop: function() {
     if(this.active) {
       this.active = false;
-      document.getElementById('fireworks_wrap')
+      getElementById('fireworks_wrap')
         .style.display = "none";
-      document.getElementById('fireworks')
+      getElementById('fireworks')
         .getContext('2d')
         .clearRect(0, 0, canvas.width, canvas.height);
       if(launchInterval) clearInterval(launchInterval);
@@ -300,3 +302,5 @@ export default {
     }
   }
 }
+
+export default fireworks;

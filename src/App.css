@@ -1,6 +1,5 @@
 html {
   min-width: 100%;
-  /* min-height: 100%; */
 }
 
 * {
@@ -14,13 +13,19 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   background-repeat: no-repeat;
-  /* background-size: 100% auto; */
-  /* background-size: auto 100%; */
-  /* background-position: center top; */
-  /* min-height: 100%; */
   background-attachment: fixed;
+  /* background-image: url("img/space6x.jpg"); */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body.inert {
+  pointer-events: none;
+  /* opacity: 0.3; */
 }
 
 .App {
@@ -54,6 +59,7 @@ button {
 	box-shadow: 0 0 15px 1px black;
   font-family: 'Montserrat', sans-serif;
   text-shadow: 0 0 5px rgb(0,240,0);
+  cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -62,7 +68,6 @@ button:focus {
 }
 button:active {
   background: rgb(8,180,0);
-  /* box-shadow: 0 0 7px 0px purple; */
   box-shadow: 0 0 7px 0px black;
 }
 button span {
@@ -99,6 +104,9 @@ button.arrow.left {
 button.arrow.right {
   right: 0;
 }
+#playerCountSwipeWrap button.arrow {
+  top: 1.75em;
+}
 #levelSwipeWrap button.arrow {
   top: 0;
 }
@@ -111,21 +119,56 @@ body.notouch button.arrow {
 
 #helpButton {
   position: absolute;
+  z-index: 1001;
   top:0.5em;
   right: 0.5em;
   border-radius: 1.25em;
-  z-index: 99;
   opacity: 0.0;
   pointer-events: none;
-  transition: opacity 150ms linear;
+  text-shadow: none;
+  transition:
+    opacity          150ms linear,
+    background-color 300ms linear;
 }
 #helpButton span {
   width: 0.25em;
+  color: transparent;
   transform: translateX(-50%);
 }
 #helpButton.visible {
   opacity: 1.0;
-  pointer-events: auto;
+  pointer-events: all;
+}
+#helpButton.active {
+  background-color: gray;
+}
+#helpButton .q::before,
+#helpButton .q::after {
+  position: absolute;
+  top: 0;
+  color: white;
+  text-shadow: 0 0 5px rgb(0,0,0);
+  backface-visibility: hidden;
+  transition: transform 300ms linear;
+}
+#helpButton .q {
+  position: relative;
+}
+#helpButton .q::before {
+  content: "?";
+  left: 0;
+  transform: rotateY(0deg);
+}
+#helpButton .q::after {
+  content: "X";
+  left: -3px;
+  transform: rotateY(180deg);
+}
+#helpButton.active .q::before {
+  transform: rotateY(180deg);
+}
+#helpButton.active .q::after {
+  transform: rotateY(0deg);
 }
 
 #helpOverlay {
@@ -145,13 +188,71 @@ body.notouch button.arrow {
   opacity: 1.0;
 }
 
-#newGameButton {
-  margin-top: 1em;
+#help {
+  opacity: 0.0;
+  position: absolute;
+  z-index: 1000;
+  top: 5%;
+  width: 75%;
+  max-width: 480px;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1em;
+  background: black;
+  border: 8px solid rgb(18,170,23);
+  line-height: 1.25em;
+  padding: 1em;
+  box-shadow: 0 0 15px 1px black;
+  color: white;
+  font-family: 'Press Start 2P', monospace;
+  pointer-events: none;
+  overflow: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: opacity 150ms linear;
+}
+@media only screen and (min-width: 480px) {
+  #help {
+    padding: 2em;
+  }
+}
+#help.visible {
+  display: block;
+  pointer-events: all;
+  opacity: 1.0;
+}
+#help h4 {
+  margin-top: 0;
+}
+#help h4 span {
+  padding-bottom: 0.5em;
+  border-bottom: 0.25em solid white;
+}
+#help p {
+  text-align: left;
+}
+#help em {
+  font-style: normal;
+  color: orange;
+}
+#help a {
+  color: rgb(18,170,23);
+}
+#help a[href$=pdf] {
+  color: rgb(184,61,133);
+}
+#help a.src {
+  color: gray;
+  margin: 0 auto;
+  font-size: 0.75em;
 }
 
-#startButton {
+
+#startButton,
+#newGameButton {
   position: fixed;
-  top: 50%;
+  top: 65%;
   left: 50%;
   transform: translateX(-50%);
   white-space: nowrap;
@@ -195,8 +296,6 @@ body.notouch button.arrow {
   position: absolute;
   left: 0;
   right: 0;
-}
-.reactSwipeWrap {
   font-size: 1em;
   color: white;
   text-align: center;
@@ -219,6 +318,23 @@ body.notouch button.arrow {
   top: 60%;
   bottom: 10%;
 }
+.extreme #levelSwipeWrap {
+  top: 5%;
+  bottom: 75%;
+}
+.extreme #livesSwipeWrap {
+  top: 25%;
+  bottom: 45%;
+}
+.extreme #starsSwipeWrap {
+  top: 55%;
+  bottom: 15%;
+}
+.extreme #extremeWrap {
+  position: absolute;
+  top: 90%;
+  bottom: 0%;
+}
 #livesSwipeWrap .label,
 #starsSwipeWrap .label {
   margin-top: -1.5em;
@@ -230,9 +346,6 @@ body.notouch button.arrow {
   font-family: 'Press Start 2P', monospace;
   text-shadow: 0 0 10px black;
 }
-.livesSwipe,
-.starsSwipe {
-}
 
 #playerCountDisplay {
   display: none;
@@ -241,10 +354,63 @@ body.notouch button.arrow {
   display: block;
 }
 
+#isExtreme {
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+  width: 100%;
+  transform: translateX(-50%);
+  display: block;
+  margin-top: 3em;
+  color: orange;
+  font-size: 1.25em;
+  cursor: pointer;
+}
+#isExtreme .x {
+  position: relative;
+  font-size: 0.75em;
+  padding-bottom: 0.1em;
+  padding-left: 0.15em;
+  padding-right: 0.05em;
+  border: 3px solid orange;
+  top: -0.25em;
+}
+#isExtreme .x.off {
+  color: transparent;
+}
+#isExtreme input {
+  display: none;
+}
+
+#extremeWrap > div {
+  position: absolute;
+  height: 1.75em;
+  bottom: 0%;
+  font-size: 1.25em;
+  line-height: 24px;
+}
+#extremeWrap .positive {
+  left: 0.5em;
+}
+#extremeWrap .negative {
+  right: 0.5em;
+  color: red;
+}
+#extremeWrap .hand {
+  width: 24px;
+  height: 24px;
+  padding: 0 12px;
+}
+
 #levelSwipeSubtitle {
   line-height: 1.5em;
-  /* font-size: 1.25em; */
-  /* font-family: 'Montserrat', sans-serif; */
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 699px) {
+  #levelSwipeSubtitle {
+    font-size: 0.8em;
+  }
 }
 
 .images,
@@ -306,7 +472,7 @@ img.brain {
 /* https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3 */
 
 #fireworks_wrap {
-  z-index: 1;
+  z-index: -1;
   position: fixed;
   top: 0;
   left: 0;

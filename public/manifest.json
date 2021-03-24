@@ -1,12 +1,26 @@
 {
   "short_name": "TheMind",
   "name": "The Mind: Unofficial Level Tracker",
-  "display": "standalone",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "32x32 16x16",
+      "src": "favicon16x16.png",
+      "sizes": "16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "favicon32x32.png",
+      "sizes": "32x32",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "img/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/favicon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
   "start_url": ".",

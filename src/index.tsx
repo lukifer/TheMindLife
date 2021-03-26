@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import App from "./App";
+import "./fonts.css";
 
 if(!("ontouchstart" in document.documentElement)) {
   document.body.className = "notouch";

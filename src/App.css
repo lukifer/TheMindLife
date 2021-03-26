@@ -18,7 +18,7 @@ body {
   overflow: hidden;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  /* background-image: url("img/space6x.jpg"); */
+  background-image: url("./img/space6x.jpg");
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -57,7 +57,7 @@ button {
 	padding: 0.25em 0.75em;
 	/* box-shadow: 0 0 15px 1px purple; */
 	box-shadow: 0 0 15px 1px black;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   text-shadow: 0 0 5px rgb(0,240,0);
   cursor: pointer;
   user-select: none;
@@ -87,7 +87,7 @@ button.arrow {
   height: 2em;
   text-align: center;
   top: 0.5em;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   color: white;
   font-size: 2.5em;
   text-shadow: 0 0 10px black;
@@ -205,7 +205,7 @@ body.notouch button.arrow {
   padding: 1em;
   box-shadow: 0 0 15px 1px black;
   color: white;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   font-size: 0.85em;
   pointer-events: none;
   overflow: scroll;
@@ -288,7 +288,7 @@ body.notouch #help {
   /* font-size: 1.5em; */
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
   /* pointer-events: none; */
 }
@@ -311,7 +311,7 @@ body.notouch #help {
   font-size: 1em;
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
 }
 #playerCountSwipeWrap {
@@ -355,7 +355,7 @@ body.notouch #help {
   font-size: 1.5em;
   color: white;
   text-align: center;
-  font-family: 'Press Start 2P', monospace;
+  font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
 }
 
@@ -456,9 +456,7 @@ body.notouch #help {
   position: relative;
 }
 img.star,
-img.starEmpty,
-img.bunny,
-img.bunnyDead {
+img.bunny {
   position: absolute;
   left: 50%;
   top: 0;

@@ -5,6 +5,12 @@ import fireworks  from "./fireworks";
 import clsx       from "clsx";
 import "./App.css";
 
+import bunnyPng     from './img/bunny.png';
+import bunnyDeadPng from './img/bunny_dead.png';
+import handPng      from './img/hand.png';
+import starPng      from './img/star.png';
+import starBwPng    from './img/star_bw.png';
+
 import {
   calcMaxLevel,
   calcMaxLives,
@@ -29,7 +35,7 @@ const STORAGE_STATE = JSON.parse(localStorage.getItem("mind") || "false");
 const { PRE, ACTIVE, WIN, LOSS } = GameState;
 const { body } = document;
 
-const handImg = <img className="hand" src="img/hand.png" alt="Hand" />;
+const handImg = <img className="hand" src={handPng} alt="Hand" />;
 
 const times = (n: number, fn: IterNode) => Array.apply(null, Array(n)).map((_, i) => fn(i));
 
@@ -84,10 +90,10 @@ function renderLives(lives: Lives, level: Level, players: Players) {
     <div key={`lives${i}`}>
       <div className="row lives">
         <div className="images" style={{ maxWidth: `${i*90}px` }}>
-          {i === 0 && <div><img key="bunny-dead" className="bunny bunnyDead" src="img/bunny-dead.png" alt="Game Over" /></div>}
+          {i === 0 && <div><img className="bunny" src={bunnyDeadPng} alt="Game Over" /></div>}
           {i   > 0 &&
             times(i, (j) =>
-              <div key={`bunny${i}${j}`}><img className="bunny" src="img/bunny.png" alt={`Life #${j + 1}`} /></div>
+              <div key={`bunny${i}${j}`}><img className="bunny" src={bunnyPng} alt={`Life #${j + 1}`} /></div>
             )
           }
         </div>
@@ -106,11 +112,11 @@ function renderStars(level: Level, stars: Stars) {
           {
             i > 0 && times(i, (j) =>
               <div key={`star${i}${j}`}>
-                <img className="star" src="img/star.png" alt={`Star #${j + 1}`} />
+                <img className="star" src={starPng} alt={`Star #${j + 1}`} />
               </div>
             )
           }
-          {i === 0 && <div><img key={"star-empty"} className="starEmpty" src="img/star_bw.png" alt="0 Stars" /></div>}
+          {i === 0 && <div><img className="star" src={starBwPng} alt="0 Stars" /></div>}
         </div>
       </div>
     </div>

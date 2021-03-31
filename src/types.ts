@@ -22,13 +22,13 @@ export type Game = {
 }
 
 export type SwipeArgs = {
-  ref: (swipe: ReactSwipe) => void;
   panes: React.ReactNode[];
   startSlide: number;
-  transitionEnd: (num: number) => void;
+  onSwipe: (slideIndex: number) => void;
+  saveRef?: (swipe: ReactSwipe) => void;
   className?: string;
-  leftButton?:  false | (() => void);
-  rightButton?: false | (() => void);
+  leftButton?:  boolean;
+  rightButton?: boolean;
 }
 
 export type IterNode = (n: number) => React.ReactNode;

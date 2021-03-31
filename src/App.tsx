@@ -1,6 +1,7 @@
 import React      from "react";
 import ReactSwipe from "react-swipe";
 import Help       from "./Help";
+import Swipe      from "./Swipe";
 import fireworks  from "./fireworks";
 import clsx       from "clsx";
 import "./App.css";
@@ -15,6 +16,7 @@ import {
   calcMaxLevel,
   calcMaxLives,
   calcMaxStars,
+  gameReducer,
   extremeHands,
   INIT_STATE,
 } from "./game";
@@ -26,14 +28,12 @@ import {
   Level,
   Lives,
   Players,
-  SwipeArgs,
   Stars,
 } from "./types";
 
 const SLIDE_SPEED = 500;
 const STORAGE_STATE = JSON.parse(localStorage.getItem("mind") || "false");
 const { PRE, ACTIVE, WIN, LOSS } = GameState;
-const { body } = document;
 
 const handImg = <img className="hand" src={handPng} alt="Hand" />;
 
@@ -123,61 +123,8 @@ function renderStars(level: Level, stars: Stars) {
   );
 }
 
-let levelSwipe:   ReactSwipe | null;
-let livesSwipe:   ReactSwipe | null;
-let playersSwipe: ReactSwipe | null;
-let starsSwipe:   ReactSwipe | null;
-
-function gameReducer(oldGame: Game, change: Partial<Game>) {
-  //console.log("gameUpdate", change);
-  let newGame = { ...oldGame, ...change };
-  if(oldGame.level !== newGame.level) {
-    newGame.state = newGame.level > calcMaxLevel(newGame.players)
-      ? WIN
-      : ACTIVE
-      ;
-  }
-  else if(oldGame.lives !== newGame.lives) {
-    newGame.state = newGame.lives > 0 && newGame.state !== WIN
-      ? ACTIVE
-      : LOSS
-      ;
-  }
-  else if(oldGame.state === PRE && newGame.state === ACTIVE) {
-    newGame = {
-      ...INIT_STATE,
-      extreme: newGame.extreme,
-      lives: calcMaxLives(newGame.players, 1),
-      players: newGame.players,
-      state: ACTIVE,
-    };
-    //console.log(JSON.stringify(newGame));
-  }
-  return newGame;
-}
-
-function reactSwipe(args: SwipeArgs) {
-  const { leftButton, rightButton } = args;
-  return (
-    <>
-      { leftButton && <button className="arrow left"  onClick={ leftButton}>&lt;</button>}
-      {rightButton && <button className="arrow right" onClick={rightButton}>&gt;</button>}
-      <ReactSwipe
-        ref={args.ref}
-        childCount={args.panes.length}
-        className={args.className || ""}
-        swipeOptions={{
-          continuous: false,
-          startSlide: args.startSlide,
-          callback: () => false && body.classList.add("inert"),
-          transitionEnd: args.transitionEnd,
-        }}
-      >
-        {args.panes}
-      </ReactSwipe>
-    </>
-  );
-}
+let livesSwipe: ReactSwipe | null;
+let starsSwipe: ReactSwipe | null;
 
 function usePrevious(game: Game) {
   const ref = React.useRef<Game>(game);
@@ -202,10 +149,7 @@ function App() {
   const maxStars = calcMaxStars(level);
 
   // Save state
-  React.useEffect(() => {
-    localStorage.setItem("mind", JSON.stringify(game));
-    //document.body.classList.remove("inert");
-  }, [game]);
+  React.useEffect(() => localStorage.setItem("mind", JSON.stringify(game)), [game]);
 
   // Start or stop fireworks if win state changed
   React.useEffect(() => state === WIN ? fireworks.start() : fireworks.stop(), [state])
@@ -235,14 +179,13 @@ function App() {
 
       <div id="preWrap" className={clsx(state !== PRE && "hidden")}>
         <div id="playerCountSwipeWrap" className="reactSwipeWrap">
-          {reactSwipe({
-            ref: reactSwipe => (playersSwipe = reactSwipe),
+          <Swipe {...{
             panes: renderPlayers(),
             startSlide: players - 2,
-            transitionEnd: (num: number) => setPlayers(num + 2 as Players),
-            leftButton:  players > 2 && (() => playersSwipe?.prev()),
-            rightButton: players < 4 && (() => playersSwipe?.next()),
-          })}
+            onSwipe: (idx: number) => setPlayers(idx + 2 as Players),
+            leftButton:  players > 2,
+            rightButton: players < 4,
+          }} />
           <div id="playerCountSubtitle" className="subtitle">Levels 1 - {maxLevel}</div>
           <div id="isExtreme">
             <label>
@@ -250,7 +193,6 @@ function App() {
               <span className={clsx("x", !extreme && "off")}>x</span> Extreme
             </label>
           </div>
-          {/* className={clsx(state === PRE && "visible")} */}
           <button
             id="startButton"
             onClick={() => setState(ACTIVE)}
@@ -263,14 +205,13 @@ function App() {
       <div id="activeWrap" className={clsx(extreme && "extreme", state === PRE && "hidden")}>
 
         <div id="levelSwipeWrap" className="reactSwipeWrap">
-          {reactSwipe({
-            ref: reactSwipe => (levelSwipe = reactSwipe),
+          <Swipe {...{
             panes: renderLevel(players),
             startSlide: level - 1,
-            transitionEnd: (num: number) => setLevel(num + 1 as Level),
-            leftButton:  state === ACTIVE && level > 1         && (() => levelSwipe?.prev()),
-            rightButton: state === ACTIVE && level <= maxLevel && (() => levelSwipe?.next()),
-          })}
+            onSwipe: (idx: number) => setLevel(idx + 1 as Level),
+            leftButton:  state === ACTIVE && level > 1,
+            rightButton: state === ACTIVE && level <= maxLevel,
+          }} />
           <div id="levelSwipeSubtitle" className={clsx(state !== ACTIVE && "hidden")}>
             <div>{level === maxLevel && <>Final Level!</>}</div>
             <div>Deal {numWord(level)} To Each Player</div>
@@ -278,15 +219,15 @@ function App() {
         </div>
 
         <div id="livesSwipeWrap" className="reactSwipeWrap">
-          {/*className={`livesSwipe ${state !== ACTIVE && "inactive"}`}*/}
-          {reactSwipe({
-            ref: reactSwipe => (livesSwipe = reactSwipe),
+          <Swipe {...{
+            saveRef: reactSwipe => (livesSwipe = reactSwipe),
             panes: renderLives(lives, level, players),
             startSlide: lives,
-            transitionEnd: (num: number) => setLives(num as Lives),
-            leftButton:  state === ACTIVE && (() => livesSwipe?.prev()),
-            rightButton: lives < maxLives && (() => livesSwipe?.next()),
-          })}
+            onSwipe: (idx: number) => setLives(idx as Lives),
+            className: clsx(state === WIN && "inactive"),
+            leftButton:  state === ACTIVE,
+            rightButton: lives < maxLives,
+          }} />
           <div className="label">
             {lives === 0 && <span>GAME OVER</span>}
             {lives   > 0 && <span>Lives {lives} / {maxLives}</span>}
@@ -294,15 +235,16 @@ function App() {
         </div>
 
         <div id="starsSwipeWrap" className="reactSwipeWrap">
-          {reactSwipe({
-            ref: reactSwipe => (starsSwipe = reactSwipe),
+          <Swipe {...{
+            saveRef: reactSwipe => (starsSwipe = reactSwipe),
             panes: renderStars(level, stars),
             startSlide: stars,
-            transitionEnd: (num: number) => setStars(num as Stars),
+            // onSwipe: (idx: number) => setStars(Math.min(idx, maxStars) as Stars),
+            onSwipe: (idx: number) => setStars(idx as Stars),
             className: clsx(state !== ACTIVE && "hidden"),
-            leftButton:  state === ACTIVE && stars > 0        && (() => starsSwipe?.prev()),
-            rightButton: state === ACTIVE && stars < maxStars && (() => starsSwipe?.next()),
-          })}
+            leftButton:  state === ACTIVE && stars > 0,
+            rightButton: state === ACTIVE && stars < maxStars,
+          }} />
           <div className={state === ACTIVE ? "label" : "hidden"}>
             Stars {stars} / {maxStars}
           </div>

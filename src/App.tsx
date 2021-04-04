@@ -1,5 +1,4 @@
 import React      from "react";
-import ReactSwipe from "react-swipe";
 import Help       from "./Help";
 import Swipe      from "./Swipe";
 import fireworks  from "./fireworks";
@@ -10,7 +9,6 @@ import bunnyPng     from './img/bunny.png';
 import bunnyDeadPng from './img/bunny_dead.png';
 import handPng      from './img/hand.png';
 import starPng      from './img/star.png';
-import starBwPng    from './img/star_bw.png';
 
 import {
   calcMaxLevel,
@@ -31,11 +29,10 @@ import {
   Stars,
 } from "./types";
 
-const SLIDE_SPEED = 500;
+import { slideAnimation } from "./animation";
+
 const STORAGE_STATE = JSON.parse(localStorage.getItem("mind") || "false");
 const { PRE, ACTIVE, WIN, LOSS } = GameState;
-
-const handImg = <img className="hand" src={handPng} alt="Hand" />;
 
 const times = (n: number, fn: IterNode) => Array.apply(null, Array(n)).map((_, i) => fn(i));
 
@@ -82,7 +79,7 @@ function renderLevel(players: Players) {
 }
 
 function renderLives(lives: Lives, level: Level, players: Players) {
-  // We allow lives to extend beyond the max, to keep the downgraded cell rendered while reverting levels
+  // We extend beyond the max, to keep the downgraded cell rendered while reverting levels
   const maxLives = calcMaxLives(players, level) || 0;
   const numSlides = Math.max(maxLives, lives) + 1;
 
@@ -93,7 +90,9 @@ function renderLives(lives: Lives, level: Level, players: Players) {
           {i === 0 && <div><img className="bunny" src={bunnyDeadPng} alt="Game Over" /></div>}
           {i   > 0 &&
             times(i, (j) =>
-              <div key={`bunny${i}${j}`}><img className="bunny" src={bunnyPng} alt={`Life #${j + 1}`} /></div>
+              <div key={`bunny${i}${j}`}>
+                <img className="bunny" src={bunnyPng} alt={`Life #${j + 1}`} />
+              </div>
             )
           }
         </div>
@@ -110,21 +109,32 @@ function renderStars(level: Level, stars: Stars) {
       <div className="row stars">
         <div className="images" style={{ maxWidth: `${i*90}px` }}>
           {
-            i > 0 && times(i, (j) =>
+            times(Math.max(1, i), (j) =>
               <div key={`star${i}${j}`}>
-                <img className="star" src={starPng} alt={`Star #${j + 1}`} />
+                <img
+                  className={clsx("star", i === 0 && "faded")}
+                  src={starPng}
+                  alt={i === 0 ? "0 Stars" : `Star #${j + 1}`}
+                />
               </div>
             )
           }
-          {i === 0 && <div><img className="star" src={starBwPng} alt="0 Stars" /></div>}
         </div>
       </div>
     </div>
   );
 }
 
-let livesSwipe: ReactSwipe | null;
-let starsSwipe: ReactSwipe | null;
+function ExtremeFooter(props: Pick<Game, "level">) {
+  const { level } = props;
+  const handImg = <img className="hand" src={handPng} alt="Hand" />;
+  return (
+    <div id="extremeWrap" className="reactSwipeWrap">
+      <div className="positive">0 {extremeHands["+"].includes(level) && handImg}</div>
+      <div className="negative">{  extremeHands["-"].includes(level) && handImg} 51</div>
+    </div>
+  );
+}
 
 function usePrevious(game: Game) {
   const ref = React.useRef<Game>(game);
@@ -154,23 +164,8 @@ function App() {
   // Start or stop fireworks if win state changed
   React.useEffect(() => state === WIN ? fireworks.start() : fireworks.stop(), [state])
 
-  // If our level changed, we may need to increase lives or stars
-  React.useEffect(() => {
-    if(prev && prev.level !== game.level) {
-      const [ oldMaxLives, newMaxLives ] = [prev, game].map(x => calcMaxLives(x.players, x.level));
-      const [ oldMaxStars, newMaxStars ] = [prev, game].map(x => calcMaxStars(x.level));
-
-      // we allow undoing level gains, but loss can only be triggered by direct user action
-      if(livesSwipe && oldMaxLives !== newMaxLives) {
-        const newLivesPos = livesSwipe.getPos() - (oldMaxLives - newMaxLives);
-        newLivesPos > 0 && game.state === ACTIVE && livesSwipe.slide(newLivesPos, SLIDE_SPEED)
-      }
-      if(starsSwipe && oldMaxStars !== newMaxStars) {
-        const newStarsPos = starsSwipe.getPos() - (oldMaxStars - newMaxStars);
-        starsSwipe.slide(newStarsPos, SLIDE_SPEED);
-      }
-    }
-  }, [prev, game]);
+  // Animate bunnies and stars if they changed from level changes
+  React.useLayoutEffect(() => slideAnimation(prev, game), [prev, game]);
 
   return (
     <div className="App">
@@ -209,6 +204,7 @@ function App() {
             panes: renderLevel(players),
             startSlide: level - 1,
             onSwipe: (idx: number) => setLevel(idx + 1 as Level),
+            className: clsx("levelsSwipe", state === LOSS && "inactive"),
             leftButton:  state === ACTIVE && level > 1,
             rightButton: state === ACTIVE && level <= maxLevel,
           }} />
@@ -218,13 +214,12 @@ function App() {
           </div>
         </div>
 
-        <div id="livesSwipeWrap" className="reactSwipeWrap">
+        <div id="livesSwipeWrap" className="reactSwipeWrap animateWrap">
           <Swipe {...{
-            saveRef: reactSwipe => (livesSwipe = reactSwipe),
             panes: renderLives(lives, level, players),
             startSlide: lives,
             onSwipe: (idx: number) => setLives(idx as Lives),
-            className: clsx(state === WIN && "inactive"),
+            className: clsx("livesSwipe", state === WIN && "inactive"),
             leftButton:  state === ACTIVE,
             rightButton: lives < maxLives,
           }} />
@@ -234,14 +229,12 @@ function App() {
           </div>
         </div>
 
-        <div id="starsSwipeWrap" className="reactSwipeWrap">
+        <div id="starsSwipeWrap" className="reactSwipeWrap animateWrap">
           <Swipe {...{
-            saveRef: reactSwipe => (starsSwipe = reactSwipe),
             panes: renderStars(level, stars),
             startSlide: stars,
-            // onSwipe: (idx: number) => setStars(Math.min(idx, maxStars) as Stars),
             onSwipe: (idx: number) => setStars(idx as Stars),
-            className: clsx(state !== ACTIVE && "hidden"),
+            className: clsx("starsSwipe", state !== ACTIVE && "hidden"),
             leftButton:  state === ACTIVE && stars > 0,
             rightButton: state === ACTIVE && stars < maxStars,
           }} />
@@ -250,10 +243,7 @@ function App() {
           </div>
         </div>
 
-        <div id="extremeWrap" className="reactSwipeWrap">
-          <div className="positive">0 {extremeHands["+"].includes(level) && handImg}</div>
-          <div className="negative">{  extremeHands["-"].includes(level) && handImg} 51</div>
-        </div>
+        <ExtremeFooter level={level} />
 
       </div> {/* #activeWrap */}
 

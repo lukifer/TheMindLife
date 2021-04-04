@@ -39,31 +39,42 @@ export const INIT_STATE: Game = {
   extreme: false,
 };
 
-export function gameReducer(oldGame: Game, change: Partial<Game>) {
+export function gameReducer(prev: Game, change: Partial<Game>) {
   // console.log("gameUpdate", change);
   const { PRE, ACTIVE, WIN, LOSS } = GameState;
-  let newGame = { ...oldGame, ...change };
-  if(oldGame.level !== newGame.level) {
-    newGame.state = newGame.level > calcMaxLevel(newGame.players)
+  let game = { ...prev, ...change };
+
+  if(prev.level !== game.level) {
+    game.state = game.level > calcMaxLevel(game.players)
       ? WIN
       : ACTIVE
       ;
+    if(game.state === ACTIVE) {
+      const [ oldMaxLives, newMaxLives ] = [prev, game].map(x => calcMaxLives(x.players, x.level));
+      const [ oldMaxStars, newMaxStars ] = [prev, game].map(x => calcMaxStars(x.level));
+      game = {
+        ...game,
+        stars: game.stars - (oldMaxStars - newMaxStars) as Stars,
+        lives: game.lives - (oldMaxLives - newMaxLives) as Lives,
+      };
+    }
   }
-  else if(oldGame.lives !== newGame.lives) {
-    newGame.state = newGame.lives > 0 && newGame.state !== WIN
+  else if(prev.lives !== game.lives) {
+    game.state = game.lives > 0 && game.state !== WIN
       ? ACTIVE
       : LOSS
       ;
   }
-  else if(oldGame.state === PRE && newGame.state === ACTIVE) {
-    newGame = {
+  else if(prev.state === PRE && game.state === ACTIVE) {
+    game = {
       ...INIT_STATE,
-      extreme: newGame.extreme,
-      lives: calcMaxLives(newGame.players, 1),
-      players: newGame.players,
+      extreme: game.extreme,
+      lives: calcMaxLives(game.players, 1),
+      players: game.players,
       state: ACTIVE,
     };
-    // console.log(JSON.stringify(newGame));
+
+    // console.log(JSON.stringify(game));
   }
-  return newGame;
+  return game;
 }

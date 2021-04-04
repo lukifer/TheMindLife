@@ -3,14 +3,14 @@ import clsx  from "clsx";
 
 import { Game, GameState } from "./types";
 
-function Help(args: Partial<Game>) {
+function Help(props: Pick<Game, "state">) {
   const [active, setActive] = React.useState(false);
   const lnk = { target: "_blank", rel: "noreferrer" };
   const pnd = "https://pandasaurusgames.com/products/";
   return <>
     <button
       id="helpButton"
-      className={clsx(args.state === GameState.PRE && "visible", active && "active")}
+      className={clsx(props.state === GameState.PRE && "visible", active && "active")}
       onClick={() => setActive(!active)}
     ><span className="q">?</span></button>
     <div

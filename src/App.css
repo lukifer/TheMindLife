@@ -122,8 +122,8 @@ body.notouch button.arrow {
   pointer-events: none;
   text-shadow: none;
   transition:
-    opacity          150ms linear,
-    background-color 300ms linear;
+    opacity          150ms ease-out,
+    background-color 300ms ease-out;
 }
 #helpButton span {
   width: 0.25em;
@@ -144,7 +144,7 @@ body.notouch button.arrow {
   color: white;
   text-shadow: 0 0 5px rgb(0,0,0);
   backface-visibility: hidden;
-  transition: transform 300ms linear;
+  transition: transform 300ms ease-out;
 }
 #helpButton .q {
   position: relative;
@@ -207,7 +207,7 @@ body.notouch button.arrow {
   user-select: none;
   -webkit-user-select: none;
   -webkit-overflow-scrolling: touch;
-  transition: opacity 150ms linear;
+  transition: opacity 150ms ease-out;
 }
 body.notouch #help {
   overflow: auto;
@@ -255,7 +255,6 @@ body.notouch #help {
   font-size: 0.75em;
 }
 
-
 #startButton,
 #newGameButton {
   position: fixed;
@@ -279,13 +278,10 @@ body.notouch #help {
 .row > div {
   margin: 0 auto;
   width: 100%;
-  /* height: 150px; */
-  /* font-size: 1.5em; */
   color: white;
   text-align: center;
   font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
-  /* pointer-events: none; */
 }
 .row.lives,
 .row.stars {
@@ -352,6 +348,20 @@ body.notouch #help {
   text-align: center;
   font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
+}
+.animateWrap .temp {
+  position: absolute;
+  top: 12px;
+  transition: transform 400ms ease-out;
+}
+.no-transition .animateWrap .temp {
+  transition-duration: 0ms !important;
+}
+.animateWrap .images > div {
+  transition: transform 400ms ease-out;
+}
+.no-transition .animateWrap .images > div {
+  transition-duration: 0ms !important;
 }
 
 #playerCountDisplay {
@@ -429,11 +439,6 @@ body.notouch #help {
   margin-top: 2em;
   font-size: 2em;
 }
-#playerCountSwipeWrap .images,
-#playerCountSwipeWrap .label {
-  /* padding-top: 1em;
-  padding-bottom: 1em; */
-}
 
 .row .images {
   white-space: nowrap;
@@ -458,21 +463,14 @@ img.bunny {
   width:  90px;
   height: 90px;
   transform: translateX(-50%);
+  transition: filter 400ms ease-out;
 }
-img.brain {
-  visibility: hidden;
-  width: 99px;
-  height: 69px;
+img.faded {
+  filter: grayscale(1) brightness(0.75);
 }
-/* img.brain {
-  display: inline-block;
-  width: 69px;
-  height: 69px;
-  border-radius: 35px;
-  border: 4px solid rgb(18,170,23);
-  margin: 0 7px;
-  box-shadow: 0 0 10px 1px black;
-} */
+.no-transition img.star {
+  transition-duration: 0ms;
+}
 
 /* https://stackoverflow.com/questions/8693733/how-to-give-outer-glow-to-an-object-in-a-transparent-png-using-css3 */
 

@@ -1,41 +1,41 @@
 import React      from "react";
 import ReactSwipe from "react-swipe";
 
-import { SwipeArgs } from "./types";
+import { SwipeProps } from "./types";
 
-function Swipe(args: SwipeArgs) {
+function Swipe(props: SwipeProps) {
   const {
     panes,
     startSlide,
     onSwipe,
-    saveRef,
     className,
     leftButton,
     rightButton,
-  } = args;
+  } = props;
 
-  // captured ReactSwipe object, used by left/right desktop buttons, and
-  // optionally exposed to parent app via "saveRef" callback prop
+  // captured ReactSwipe object, used by left/right desktop buttons
   let swipeRef: ReactSwipe | null;
 
-  // There is a timing bug with rapid swiping, so we need to capture the index
-  // during the "callback" event, and then apply it on the "transitionEnd" event.
-  // We use a ref rather than state, to not trigger a render while animation resolves.
-  let swipeIndexRef = React.useRef(startSlide);
+  let tempImagesRemoved = false;
 
   return (
     <>
       { leftButton && <button className="arrow left"  onClick={() => swipeRef?.prev()}>&lt;</button>}
       {rightButton && <button className="arrow right" onClick={() => swipeRef?.next()}>&gt;</button>}
       <ReactSwipe
-        ref={ref => (swipeRef = ref) && saveRef && saveRef(ref)}
+        ref={ref => (swipeRef = ref)}
         childCount={panes.length}
         className={className || ""}
         swipeOptions={{
           continuous: false,
           startSlide: startSlide,
-          callback: idx => swipeIndexRef.current = idx,
-          transitionEnd: () => onSwipe(swipeIndexRef.current),
+          swiping: () => {
+            if(!tempImagesRemoved) {
+              document.querySelectorAll(".temp").forEach(x => x.remove());
+              tempImagesRemoved = true;
+            }
+          },
+          transitionEnd: num => onSwipe(num),
         }}
       >
         {panes}

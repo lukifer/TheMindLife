@@ -127,11 +127,18 @@ function renderStars(level: Level, stars: Stars) {
 
 function ExtremeFooter(props: Pick<Game, "level">) {
   const { level } = props;
-  const handImg = <img className="hand" src={handPng} alt="Hand" />;
+  const pos = extremeHands["+"].includes(level);
+  const neg = extremeHands["-"].includes(level);
   return (
     <div id="extremeWrap" className="reactSwipeWrap">
-      <div className="positive">0 {extremeHands["+"].includes(level) && handImg}</div>
-      <div className="negative">{  extremeHands["-"].includes(level) && handImg} 51</div>
+      <div className="positive">
+        0
+        <img className={clsx("hand", pos && "active")} src={handPng} alt="Hand" />
+      </div>
+      <div className="negative">
+        <img className={clsx("hand", neg && "active")} src={handPng} alt="Hand" />
+        51
+      </div>
     </div>
   );
 }

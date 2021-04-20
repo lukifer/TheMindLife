@@ -321,6 +321,12 @@ body.notouch #help {
   top: 60%;
   bottom: 10%;
 }
+#extremeWrap {
+  display: none;
+}
+.extreme #extremeWrap {
+  display: block;
+}
 .extreme #levelSwipeWrap {
   top: 5%;
   bottom: 75%;

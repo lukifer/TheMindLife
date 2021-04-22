@@ -17,7 +17,10 @@ function translateX(el: Element, val: string) {
 
 export function xOffsets(containerWidth: number, itemWidth: number, count: number) {
   const adjustedWidth = Math.min(containerWidth / count, itemWidth);
-  const offset = Math.max(0, (containerWidth - (count * itemWidth)) / 2);
+  const offset = adjustedWidth === itemWidth
+    ?  0.5 * (containerWidth - (count * itemWidth))
+    : -0.5 * (itemWidth - adjustedWidth)
+    ;
   return [...Array(count)].map((_, n) => offset + (n * adjustedWidth));
 }
 

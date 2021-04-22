@@ -10,12 +10,17 @@ test("renders learn react link", () => {
 });
 
 test("calculate correct offsets for animation", () => {
+  const screenWidth = 375 - 48;
+  const itemWidth = 90;
   const cases: Record<string, Array<number>> = {
     "3": [29, 119, 209],
     "4": [0, 82, 164, 245],
     "5": [0, 65, 131, 196, 262],
   };
   Object.keys(cases).map(count => {
-    expect(xOffsets(375 - 48, 90, +count).map(x => Math.round(x))).toEqual(cases[count]);
+    const allItemsWidth = (+count * itemWidth);
+    const allItemsGap = Math.max(0, allItemsWidth - screenWidth);
+    const itemOffset = allItemsGap / (+count * 2);
+    expect(xOffsets(screenWidth, itemWidth, +count).map(x => Math.round(x+itemOffset))).toEqual(cases[count]);
   })
 });

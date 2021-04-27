@@ -355,6 +355,10 @@ body.notouch #help {
   font-family: "Press Start 2P", monospace;
   text-shadow: 0 0 10px black;
 }
+.react-swipe-container > div > div {
+  /* prevent temp image from overflowing out of bounds  */
+  overflow: hidden;
+}
 .animateWrap .temp {
   position: absolute;
   top: 12px;

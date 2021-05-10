@@ -1,54 +1,16 @@
-//https://jsfiddle.net/dtrooper/AceJJ/
+// ported from https://jsfiddle.net/dtrooper/AceJJ/
 
 var SCREEN_WIDTH  = window.innerWidth,
     SCREEN_HEIGHT = window.innerHeight,
-    // mousePos = {
-    //     x: 400,
-    //     y: 300
-    // },
 
     // create canvas
-    //canvas = document.createElement('canvas'),
     canvas,
-    //context = canvas.getContext('2d'),
     context,
     launchInterval,
     loopInterval,
     particles = [],
     rockets = [],
     MAX_PARTICLES = 400;
-
-    // canvas.width = SCREEN_WIDTH;
-    // canvas.height = SCREEN_HEIGHT;
-
-// init
-// $(document).ready(function() {
-//     //document.body.appendChild(canvas);
-//     canvas.width = SCREEN_WIDTH;
-//     canvas.height = SCREEN_HEIGHT;
-//     // setInterval(launch, 800);
-//     // setInterval(loop, 1000 / 50);
-// });
-
-// update mouse position
-// $(document).mousemove(function(e) {
-//     e.preventDefault();
-//     mousePos = {
-//         x: e.clientX,
-//         y: e.clientY
-//     };
-// });
-
-// launch more rockets!!!
-// $(document).mousedown(function(e) {
-//     for (var i = 0; i < 5; i++) {
-//         launchFrom(Math.random() * SCREEN_WIDTH * 2 / 3 + SCREEN_WIDTH / 6);
-//     }
-// });
-
-// function launch() {
-//     launchFrom(mousePos.x);
-// }
 
 function launchFrom(x) {
     if (rockets.length < 10) {
@@ -64,14 +26,6 @@ function launchFrom(x) {
 }
 
 function loop() {
-    // update screen size
-    // if (SCREEN_WIDTH != window.innerWidth) {
-    //     canvas.width = SCREEN_WIDTH = window.innerWidth;
-    // }
-    // if (SCREEN_HEIGHT != window.innerHeight) {
-    //     canvas.height = SCREEN_HEIGHT = window.innerHeight;
-    // }
-
     // clear canvas
     context.fillStyle = "rgba(0, 0, 0, 0.001)";
     context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -95,7 +49,7 @@ function loop() {
         // random chance of 1% if rockets is above the middle
         var randomChance = rockets[i].pos.y < (SCREEN_HEIGHT * 2 / 3) ? (Math.random() * 100 <= 1) : false;
 
-/* Explosion rules
+        /* Explosion rules
              - 80% of screen
             - going down
             - close to the mouse
@@ -267,9 +221,6 @@ Rocket.prototype.render = function(c) {
     c.restore();
 };
 
-// setInterval(launch, 800);
-// setInterval(loop, 1000 / 50);
-
 const fireworks = {
   canvas: canvas,
   active: false,
@@ -280,7 +231,6 @@ const fireworks = {
     canvas = document.getElementById('fireworks');
     canvas.width = SCREEN_WIDTH;
     canvas.height = SCREEN_HEIGHT;
-    //canvas.style.display = "block";
     context = canvas.getContext('2d');
     launchInterval = setInterval(function() { launchFrom(parseInt(Math.random() * SCREEN_WIDTH)); }, 800);
     loopInterval = setInterval(loop, 1000 / 50);

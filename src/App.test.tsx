@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import App from "./App";
 import { xOffsets } from "./animation";
 
-test("renders learn react link", () => {
+test("renders app", () => {
   render(<App />);
   const startButton = screen.getByText(/Start Game/i);
   expect(startButton).toBeInTheDocument();
@@ -21,6 +21,7 @@ test("calculate correct offsets for animation", () => {
     const allItemsWidth = (+count * itemWidth);
     const allItemsGap = Math.max(0, allItemsWidth - screenWidth);
     const itemOffset = allItemsGap / (+count * 2);
-    expect(xOffsets(screenWidth, itemWidth, +count).map(x => Math.round(x+itemOffset))).toEqual(cases[count]);
+    const testOffsets = xOffsets(screenWidth, itemWidth, +count);
+    expect(testOffsets.map(x => Math.round(x+itemOffset))).toEqual(cases[count]);
   })
 });

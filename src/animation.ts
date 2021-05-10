@@ -11,10 +11,11 @@ function getSlide(name: SwipeName, pos: number, sel: string = "") {
   return document.getElementById(id)?.querySelectorAll(selector);
 }
 
-function translateX(el: Element, val: string) {
-  (el as HTMLElement).style.transform = `translateX(${val})`;
+function translateX(el: Element, x: number) {
+  (el as HTMLElement).style.transform = `translateX(${x}px)`;
 }
 
+// Calculate the x-axis positions for a row of icons, for animating between states
 export function xOffsets(containerWidth: number, itemWidth: number, count: number) {
   const adjustedWidth = Math.min(containerWidth / count, itemWidth);
   const offset = adjustedWidth === itemWidth
@@ -24,6 +25,9 @@ export function xOffsets(containerWidth: number, itemWidth: number, count: numbe
   return [...Array(count)].map((_, n) => offset + (n * adjustedWidth));
 }
 
+// Apply a transition effect after a change in icon count. We do this by applying offsets
+// in reverse; ie, when changing from 4 icons to 3 icons, we apply a translateX on the
+// remaining 3, to position them back to their "4" state, then animate back to translateX(0)
 export function slideAnimation(prev: Game, game: Game) {
   if(document?.body && prev?.state === GameState.ACTIVE && prev.level !== game.level) {
     let anims = [] as Array<Fn>;
@@ -49,23 +53,21 @@ export function slideAnimation(prev: Game, game: Game) {
         const to   = xOffsets(clientWidth - (24 * 2), 90, game[key]);
         images?.forEach((el, n) => {
           if(diff < 0 && !img) img = el.firstElementChild as HTMLElement;
-          if(n < game[key] - diff) {
-            translateX(el, `${from[n] - to[n]}px`);
-          } else {
-            translateX(el, `${clientWidth/2}px`);
-          }
-          anims.push(() => translateX(el, "0px"));
+          // Previously existing icons slide into position; new icons fly in from offscreen
+          const isPreExistingIcon = n < game[key] - diff;
+          translateX(el, isPreExistingIcon ? from[n] - to[n] : clientWidth/2);
+          anims.push(() => translateX(el, 0));
         });
-        // If going backwards, add temp images to push away
+        // If going backwards, add temp image(s), which will be animated away
         if(diff < 0) {
           const slide = (getSlide(key, game[key]) || [])[0];
           slide && img && [...Array(0-diff)].forEach((_, n) => {
             const tempImg = img?.cloneNode() as HTMLElement;
             tempImg.classList.add("temp");
             tempImg.style.left = `${(clientWidth/2)+((game[key]-1)*45)+(n*90)}px`;
-            translateX(tempImg, "0px");
+            translateX(tempImg, 0);
             slide.appendChild(tempImg);
-            anims.push(() => translateX(tempImg, `${clientWidth/2}px`));
+            anims.push(() => translateX(tempImg, clientWidth/2));
           });
         }
       }

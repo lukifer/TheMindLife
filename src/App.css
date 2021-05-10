@@ -467,7 +467,6 @@ body.notouch #help {
 .row .images {
   white-space: nowrap;
   display: flex;
-  /* margin-bottom: 0.5em; */
 }
 .row.stars,
 .row.lives {
